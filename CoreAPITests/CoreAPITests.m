@@ -20,7 +20,7 @@
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
-    self.capi = [CAPI instanceWithConfig:@{ @"baseURL" : @"https://jsonplaceholder.typicode.com" }];
+    self.capi = [CAPI with:@{ CAPIBaseURL : @"https://jsonplaceholder.typicode.com" }];
 }
 
 - (void)tearDown {
@@ -35,16 +35,20 @@
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@""];
     
-    self.capi.GET( @"/posts", @{ @"useContentTypeSerializer" : @YES }, ^BOOL(NSHTTPURLResponse* response) {
-        
-        return response.statusCode == 200;
-        
-    }, ^(CAPIResponse* response) {
-        
+    self.capi.GET( @"/posts", @{ CAPIUseContentTypeSerializer : @YES } )
+    .then( ^id( CAPIResponse* response ) {
+       
         [expectation fulfill];
+        return nil;
+        
+    })
+    .error( ^id(NSError* error) {
+       
+        [expectation fulfill];
+        return nil;
         
     });
-    
+
     [self waitForExpectationsWithTimeout:5 handler:^(NSError * _Nullable error) {
     }];
 }

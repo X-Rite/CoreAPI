@@ -7,13 +7,59 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#import <CorePromise/CorePromise.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSString* const CAPIErrorDomain;
 
-@interface CAPIResponse : NSObject
+/**
+ * CAPI with:config or request: config
+ */
+extern NSString* const CAPIUseContentTypeSerializer;
+extern NSString* const CAPIUseDefaultValidation;
+extern NSString* const CAPINetworkServiceType;
+extern NSString* const CAPICachePolicy;
+extern NSString* const CAPIAllowsCellularAccess;
+extern NSString* const CAPIHTTPShouldUsePipelining;
+
+/**
+ * CAPI with: config
+ * mostly directly related to NSURLSessionConfiguration
+ */
+extern NSString* const CAPIBaseURL;
+extern NSString* const CAPITimeoutIntervalForRequest;
+extern NSString* const CAPITimeoutIntervalForResource;
+extern NSString* const CAPIDiscretionary;
+extern NSString* const CAPISharedContainerIdentifier;
+extern NSString* const CAPISessionSendsLaunchEvents;
+extern NSString* const CAPIConnectionProxyDictionary;
+extern NSString* const CAPITLSMinimumSupportedProtocol;
+extern NSString* const CAPITLSMaximumSupportedProtocol;
+extern NSString* const CAPIHTTPShouldSetCookies;
+extern NSString* const CAPIHTTPCookieAcceptPolicy;
+extern NSString* const CAPIHTTPAdditionalHeaders;
+extern NSString* const CAPIHTTPMaximumConnectionsPerHost;
+extern NSString* const CAPIHTTPCookieStorage;
+extern NSString* const CAPIURLCredentialStorage;
+extern NSString* const CAPIURLCache;
+extern NSString* const CAPIShouldUseExtendedBackgroundIdleMode;
+extern NSString* const CAPIProtocolClasses;
+
+/**
+ * CAPI Request config
+ */
+extern NSString* const CAPIURL;
+extern NSString* const CAPIParams;
+extern NSString* const CAPIMethod;
+extern NSString* const CAPIData;
+extern NSString* const CAPIHTTPShouldHandleCookies;
+extern NSString* const CAPIHeaders;
+
+/**
+ * CAPI Response object
+ */
+NS_CLASS_AVAILABLE(10_11,9_0) @interface CAPIResponse : NSObject
 
 @property (nonatomic,readonly) NSURLRequest* request;
 
@@ -27,12 +73,11 @@ extern NSString* const CAPIErrorDomain;
 
 typedef id _Nullable(^CAPIResponseSerialize)( NSHTTPURLResponse* httpResponse, NSData* data );
 typedef BOOL(^CAPIResponseValidate)( NSHTTPURLResponse* httpResponse );
-typedef void(^CAPIRequestCompletion)( CAPIResponse* response );
-typedef void(^CAPIRequestBlock)( id config, ... );
+typedef CPPromise<CAPIResponse*>* _Nonnull(^CAPIRequestBlock)( id config, ... ); // requires nil terminator
 
-@interface CAPI : NSObject
+NS_CLASS_AVAILABLE(10_11,9_0) @interface CAPI : NSObject
 
-+ (instancetype)instanceWithConfig:(NSDictionary*)config;
++ (instancetype)with:(NSDictionary*)config;
 
 @property (nonatomic,copy,readonly) CAPIRequestBlock request;
 @property (nonatomic,copy,readonly) CAPIRequestBlock GET;

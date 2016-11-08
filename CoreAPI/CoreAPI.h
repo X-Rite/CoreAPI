@@ -6,5 +6,4 @@
 //  Copyright © 2016 X-Rite, Inc. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import <CoreAPI/CAPI.h>

@@ -8,6 +8,48 @@
 
 #import "CAPI.h"
 
+#import <UIKit/UIKit.h>
+
+NSString* const CAPIUseContentTypeSerializer = @"useContentTypeSerializer";
+NSString* const CAPIUseDefaultValidation = @"useDefaultValidation";
+NSString* const CAPINetworkServiceType = @"networkServiceType";
+NSString* const CAPICachePolicy = @"cachePolicy";
+NSString* const CAPIAllowsCellularAccess = @"allowsCellularAccess";
+NSString* const CAPIHTTPShouldUsePipelining = @"HTTPShouldUsePipelining";
+
+/**
+ * CAPI with: config
+ * mostly directly related to NSURLSessionConfiguration
+ */
+NSString* const CAPIBaseURL = @"baseURL";
+NSString* const CAPITimeoutIntervalForRequest = @"timeoutIntervalForRequest";
+NSString* const CAPITimeoutIntervalForResource = @"timeoutIntervalForResource";
+NSString* const CAPIDiscretionary = @"discretionary";
+NSString* const CAPISharedContainerIdentifier = @"sharedContainerIdentifier";
+NSString* const CAPISessionSendsLaunchEvents = @"sessionSendsLaunchEvents";
+NSString* const CAPIConnectionProxyDictionary = @"connectionProxyDictionary";
+NSString* const CAPITLSMinimumSupportedProtocol = @"TLSMinimumSupportedProtocol";
+NSString* const CAPITLSMaximumSupportedProtocol = @"TLSMaximumSupportedProtocol";
+NSString* const CAPIHTTPShouldSetCookies = @"HTTPShouldSetCookies";
+NSString* const CAPIHTTPCookieAcceptPolicy = @"HTTPCookieAcceptPolicy";
+NSString* const CAPIHTTPAdditionalHeaders = @"HTTPAdditionalHeaders";
+NSString* const CAPIHTTPMaximumConnectionsPerHost = @"HTTPMaximumConnectionsPerHost";
+NSString* const CAPIHTTPCookieStorage = @"HTTPCookieStorage";
+NSString* const CAPIURLCredentialStorage = @"URLCredentialStorage";
+NSString* const CAPIURLCache = @"URLCache";
+NSString* const CAPIShouldUseExtendedBackgroundIdleMode = @"shouldUseExtendedBackgroundIdleMode";
+NSString* const CAPIProtocolClasses = @"protocolClasses";
+
+/**
+ * CAPI Request config
+ */
+NSString* const CAPIURL = @"URL";
+NSString* const CAPIParams = @"params";
+NSString* const CAPIMethod = @"method";
+NSString* const CAPIData = @"data";
+NSString* const CAPIHTTPShouldHandleCookies = @"HTTPShouldHandleCookies";
+NSString* const CAPIHeaders = @"headers";
+
 NSString* const CAPIErrorDomain = @"CAPIErrorDomain";
 
 typedef void(^CAPIRequestEmptyCompletion)( id obj, ... );
@@ -35,9 +77,11 @@ typedef void(^CAPIRequestEmptyCompletion)( id obj, ... );
 @property (nonatomic,strong) NSURLSessionTask* sessionTask;
 @property (nonatomic,strong) NSOperationQueue*  queue;
 
+@property (nonatomic,strong) CPPromise* promise;
+@property (nonatomic,copy) CPPromiseResolver promiseResolver;
+
 @property (nonatomic,strong) NSMutableArray<CAPIResponseValidate>* validationBlocks;
 @property (nonatomic,copy) CAPIResponseSerialize serializeBlock;
-@property (nonatomic,copy) CAPIRequestEmptyCompletion completionBlock;
 
 @property (nonatomic,strong) CAPIResponse* response;
 
@@ -152,7 +196,7 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
 
 @implementation CAPI
 
-+ (instancetype)instanceWithConfig:(NSDictionary *)config
++ (instancetype)with:(NSDictionary *)config
 {
     return [[[self class] alloc] initWithConfig:config];
 }
@@ -168,68 +212,68 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
 {
     NSURLSessionConfiguration* sessionConfig = [[NSURLSessionConfiguration defaultSessionConfiguration] copy];
     
-    if ( config[@"requestCachePolicy"] )
-        sessionConfig.requestCachePolicy = [config[@"requestCachePolicy"] integerValue];
+    if ( config[CAPICachePolicy] )
+        sessionConfig.requestCachePolicy = [config[CAPICachePolicy] integerValue];
     
-    if ( config[@"timeoutIntervalForRequest"] )
-        sessionConfig.requestCachePolicy = [config[@"timeoutIntervalForRequest"] doubleValue];
+    if ( config[CAPITimeoutIntervalForRequest] )
+        sessionConfig.requestCachePolicy = [config[CAPITimeoutIntervalForRequest] doubleValue];
     
-    if ( config[@"timeoutIntervalForResource"] )
-        sessionConfig.requestCachePolicy = [config[@"timeoutIntervalForResource"] doubleValue];
+    if ( config[CAPITimeoutIntervalForResource] )
+        sessionConfig.requestCachePolicy = [config[CAPITimeoutIntervalForResource] doubleValue];
     
-    if ( config[@"networkServiceType"] )
-        sessionConfig.networkServiceType = [config[@"networkServiceType"] integerValue];
+    if ( config[CAPINetworkServiceType] )
+        sessionConfig.networkServiceType = [config[CAPINetworkServiceType] integerValue];
     
-    if ( config[@"allowsCellularAccess"] )
-        sessionConfig.allowsCellularAccess = [config[@"allowsCellularAccess"] boolValue];
+    if ( config[CAPIAllowsCellularAccess] )
+        sessionConfig.allowsCellularAccess = [config[CAPIAllowsCellularAccess] boolValue];
     
-    if ( config[@"discretionary"] )
-        sessionConfig.discretionary = [config[@"discretionary"] boolValue];
+    if ( config[CAPIDiscretionary] )
+        sessionConfig.discretionary = [config[CAPIDiscretionary] boolValue];
     
-    if ( config[@"sharedContainerIdentifier"] )
-        sessionConfig.sharedContainerIdentifier = config[@"sharedContainerIdentifier"];
+    if ( config[CAPISharedContainerIdentifier] )
+        sessionConfig.sharedContainerIdentifier = config[CAPISharedContainerIdentifier];
     
-    if ( config[@"sessionSendsLaunchEvents"] )
-        sessionConfig.requestCachePolicy = [config[@"sessionSendsLaunchEvents"] boolValue];
+    if ( config[CAPISessionSendsLaunchEvents] )
+        sessionConfig.requestCachePolicy = [config[CAPISessionSendsLaunchEvents] boolValue];
     
-    if ( config[@"connectionProxyDictionary"] )
-        sessionConfig.connectionProxyDictionary = config[@"connectionProxyDictionary"];
+    if ( config[CAPIConnectionProxyDictionary] )
+        sessionConfig.connectionProxyDictionary = config[CAPIConnectionProxyDictionary];
     
-    if ( config[@"TLSMinimumSupportedProtocol"] )
-        sessionConfig.TLSMinimumSupportedProtocol = [config[@"TLSMinimumSupportedProtocol"] intValue];
+    if ( config[CAPITLSMinimumSupportedProtocol] )
+        sessionConfig.TLSMinimumSupportedProtocol = [config[CAPITLSMinimumSupportedProtocol] intValue];
     
-    if ( config[@"TLSMaximumSupportedProtocol"] )
-        sessionConfig.TLSMaximumSupportedProtocol = [config[@"TLSMaximumSupportedProtocol"] intValue];
+    if ( config[CAPITLSMaximumSupportedProtocol] )
+        sessionConfig.TLSMaximumSupportedProtocol = [config[CAPITLSMaximumSupportedProtocol] intValue];
     
-    if ( config[@"HTTPShouldUsePipelining"] )
-        sessionConfig.HTTPShouldUsePipelining = [config[@"HTTPShouldUsePipelining"] boolValue];
+    if ( config[CAPIHTTPShouldUsePipelining] )
+        sessionConfig.HTTPShouldUsePipelining = [config[CAPIHTTPShouldUsePipelining] boolValue];
     
-    if ( config[@"HTTPShouldSetCookies"] )
-        sessionConfig.HTTPShouldSetCookies = [config[@"HTTPShouldSetCookies"] boolValue];
+    if ( config[CAPIHTTPShouldSetCookies] )
+        sessionConfig.HTTPShouldSetCookies = [config[CAPIHTTPShouldSetCookies] boolValue];
     
-    if ( config[@"HTTPCookieAcceptPolicy"] )
-        sessionConfig.HTTPCookieAcceptPolicy = [config[@"HTTPCookieAcceptPolicy"] integerValue];
+    if ( config[CAPIHTTPCookieAcceptPolicy] )
+        sessionConfig.HTTPCookieAcceptPolicy = [config[CAPIHTTPCookieAcceptPolicy] integerValue];
     
-    if ( config[@"HTTPAdditionalHeaders"] )
-        sessionConfig.HTTPAdditionalHeaders = config[@"HTTPAdditionalHeaders"];
+    if ( config[CAPIHTTPAdditionalHeaders] )
+        sessionConfig.HTTPAdditionalHeaders = config[CAPIHTTPAdditionalHeaders];
     
-    if ( config[@"HTTPMaximumConnectionsPerHost"] )
-        sessionConfig.HTTPMaximumConnectionsPerHost = [config[@"HTTPMaximumConnectionsPerHost"] integerValue];
+    if ( config[CAPIHTTPMaximumConnectionsPerHost] )
+        sessionConfig.HTTPMaximumConnectionsPerHost = [config[CAPIHTTPMaximumConnectionsPerHost] integerValue];
     
-    if ( config[@"HTTPCookieStorage"] )
-        sessionConfig.HTTPCookieStorage = config[@"HTTPCookieStorage"];
+    if ( config[CAPIHTTPCookieStorage] )
+        sessionConfig.HTTPCookieStorage = config[CAPIHTTPCookieStorage];
     
-    if ( config[@"URLCredentialStorage"] )
-        sessionConfig.URLCredentialStorage = config[@"URLCredentialStorage"];
+    if ( config[CAPIURLCredentialStorage] )
+        sessionConfig.URLCredentialStorage = config[CAPIURLCredentialStorage];
     
-    if ( config[@"URLCache"] )
-        sessionConfig.URLCache = config[@"URLCache"];
+    if ( config[CAPIURLCache] )
+        sessionConfig.URLCache = config[CAPIURLCache];
     
-    if ( config[@"shouldUseExtendedBackgroundIdleMode"] )
-        sessionConfig.shouldUseExtendedBackgroundIdleMode = [config[@"shouldUseExtendedBackgroundIdleMode"] boolValue];
+    if ( config[CAPIShouldUseExtendedBackgroundIdleMode] )
+        sessionConfig.shouldUseExtendedBackgroundIdleMode = [config[CAPIShouldUseExtendedBackgroundIdleMode] boolValue];
     
-    if ( config[@"protocolClasses"] )
-        sessionConfig.protocolClasses = config[@"protocolClasses"];
+    if ( config[CAPIProtocolClasses] )
+        sessionConfig.protocolClasses = config[CAPIProtocolClasses];
     
     return sessionConfig;
 }
@@ -250,19 +294,19 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
 {
     NSMutableURLRequest*    req = nil;
     NSURLComponents*        urlComponents = nil;
-    NSURL*                  baseURL = [self.config capi_urlForKey:@"baseURL"];
+    NSURL*                  baseURL = [self.config capi_urlForKey:CAPIBaseURL];
     NSURL*                  URL = nil;
     
-    if ( [config capi_urlForKey:@"baseURL"] )
-        baseURL = [config capi_urlForKey:@"baseURL"];
-    URL = [config capi_urlForKey:@"URL"];
+    if ( [config capi_urlForKey:CAPIBaseURL] )
+        baseURL = [config capi_urlForKey:CAPIBaseURL];
+    URL = [config capi_urlForKey:CAPIURL];
     if ( baseURL && URL )
            URL = [[NSURL alloc] initWithString:URL.absoluteString relativeToURL:baseURL];
     req = [NSMutableURLRequest requestWithURL:URL];
 
     urlComponents = [NSURLComponents componentsWithURL:URL resolvingAgainstBaseURL:YES];
     NSMutableArray<NSURLQueryItem*>* queryItems = [urlComponents.queryItems mutableCopy];
-    NSDictionary<NSString*,NSString*>* params = config[@"params"];
+    NSDictionary<NSString*,NSString*>* params = config[CAPIParams];
     if ( params.count )
     {
         if ( !queryItems )
@@ -280,19 +324,19 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
     if ( URL )
         req.URL = URL;
 
-    if ( config[@"cachePolicy"] )
-        req.cachePolicy = [config[@"cachePolicy"] integerValue];
+    if ( config[CAPICachePolicy] )
+        req.cachePolicy = [config[CAPICachePolicy] integerValue];
     
-    if ( config[@"networkServiceType"] )
-        req.networkServiceType = [config[@"networkServiceType"] integerValue];
+    if ( config[CAPINetworkServiceType] )
+        req.networkServiceType = [config[CAPINetworkServiceType] integerValue];
     
-    if ( config[@"allowsCellularAccess"] )
-        req.allowsCellularAccess = [config[@"allowsCellularAccess"] boolValue];
+    if ( config[CAPIAllowsCellularAccess] )
+        req.allowsCellularAccess = [config[CAPIAllowsCellularAccess] boolValue];
     
-    if ( config[@"method"] )
-        req.HTTPMethod = config[@"method"];
+    if ( config[CAPIMethod] )
+        req.HTTPMethod = config[CAPIMethod];
     
-    id data = config[@"data"];
+    id data = config[CAPIData];
     if ( [data isKindOfClass:[NSData class]] )
         req.HTTPBody = data;
     else if ( [data isKindOfClass:[NSDictionary class]] )
@@ -300,25 +344,16 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
     else if ( [data isKindOfClass:[NSString class]] )
         req.HTTPBody = [data dataUsingEncoding:NSUTF8StringEncoding];
     
-    if ( config[@"HTTPShouldHandleCookies"] )
-        req.HTTPShouldHandleCookies = [config[@"HTTPShouldHandleCookies"] boolValue];
+    if ( config[CAPIHTTPShouldHandleCookies] )
+        req.HTTPShouldHandleCookies = [config[CAPIHTTPShouldHandleCookies] boolValue];
     
-    if ( config[@"HTTPShouldUsePipelining"] )
-        req.HTTPShouldUsePipelining = [config[@"HTTPShouldUsePipelining"] boolValue];
+    if ( config[CAPIHTTPShouldUsePipelining] )
+        req.HTTPShouldUsePipelining = [config[CAPIHTTPShouldUsePipelining] boolValue];
     
-    [(NSDictionary*)config[@"headers"] enumerateKeysAndObjectsUsingBlock:^(NSString*  _Nonnull key, NSString*  _Nonnull obj, BOOL * _Nonnull stop) {
+    [(NSDictionary*)config[CAPIHeaders] enumerateKeysAndObjectsUsingBlock:^(NSString*  _Nonnull key, NSString*  _Nonnull obj, BOOL * _Nonnull stop) {
         [req addValue:obj forHTTPHeaderField:key];
     }];
 
-    if ( config[@"cachePolicy"] )
-        req.cachePolicy = [config[@"cachePolicy"] integerValue];
-    
-    if ( config[@"cachePolicy"] )
-        req.cachePolicy = [config[@"cachePolicy"] integerValue];
-    
-    if ( config[@"cachePolicy"] )
-        req.cachePolicy = [config[@"cachePolicy"] integerValue];
-    
     return req;
 }
 
@@ -327,7 +362,8 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
     task.queue = nil;
     task.response = nil;
     task.sessionTask = nil;
-    task.completionBlock = nil;
+    task.promise = nil;
+    task.promiseResolver = nil;
     task.serializeBlock = nil;
     task.validationBlocks = nil;
 }
@@ -348,8 +384,9 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
         if ( task.serializeBlock && !task.response.error )
             task.response.body = task.serializeBlock( task.response.httpResponse, task.response.data );
         
-        if ( task.completionBlock )
-            task.completionBlock( response );
+        if ( task.promiseResolver )
+            task.promiseResolver( task.response.error ? task.response.error : task.response );
+
         [self _destroyTask:task];
         
     };
@@ -363,17 +400,25 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
         finish(inTask);
 }
 
-- (void)_runRequestWithConfig:(id)config overloadConfigs:(NSDictionary*)overloadConfigs args:(va_list)args
+- (CPPromise*)_runRequestWithConfig:(id)config overloadConfigs:(NSDictionary*)overloadConfigs args:(va_list)args
 {
     NSMutableDictionary* fullConfig = [NSMutableDictionary dictionary];
     
+    // add defaults
+    fullConfig[CAPIUseContentTypeSerializer] = @(YES);
+    fullConfig[CAPIUseDefaultValidation] = @(YES);
+    
+    // pull the rest from configs
     if ( [config isKindOfClass:[NSString class]] || [config isKindOfClass:[NSURL class]] )
-        fullConfig[@"URL"] = config;
+        fullConfig[CAPIURL] = config;
     else if ( [config isKindOfClass:[NSDictionary class]] )
         [fullConfig addEntriesFromDictionary:config];
 
     CAPITask* task = [CAPITask new];
     task.config = fullConfig;
+    task.promise = [CPPromise promiseWithResolverBlock:^(CPPromiseResolver  _Nonnull resolver) {
+        task.promiseResolver = resolver;
+    }];
     
     // loop args
     while (1)
@@ -398,11 +443,8 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
                     {
                         [task.validationBlocks addObject:[val copy]];
                     }
-                    else if ( rtype == 'v' )
-                    {
-                        task.completionBlock = [val copy];
+                    else
                         break;
-                    }
                 }
                 else if ( sig.numberOfArguments == 3 )
                 {
@@ -410,6 +452,8 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
                     {
                         task.serializeBlock = [val copy];
                     }
+                    else
+                        break;
                 }
             }
         }
@@ -423,15 +467,15 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
     task.request = [self _requestFromConfig:fullConfig];
     
     // validation
-    if ( [self.config[@"useDefaultValidation"] boolValue] || [fullConfig[@"useDefaultValidation"] boolValue] )
+    if ( [self.config[CAPIUseDefaultValidation] boolValue] || [fullConfig[CAPIUseDefaultValidation] boolValue] )
     {
         [task.validationBlocks insertObject:^BOOL(NSHTTPURLResponse* response) {
-            return response.statusCode >= 200 && response.statusCode < 300;
+            return response.statusCode >= 200 && response.statusCode < 400; // sould this be 300 ??
         } atIndex:0];
     }
     
     //serialization
-    if ( !task.serializeBlock && ( [self.config[@"useContentTypeSerializer"] boolValue] || [fullConfig[@"useContentTypeSerializer"] boolValue] ) )
+    if ( !task.serializeBlock && ( [self.config[CAPIUseContentTypeSerializer] boolValue] || [fullConfig[CAPIUseContentTypeSerializer] boolValue] ) )
     {
         task.serializeBlock = ^id( NSHTTPURLResponse* response, NSData* data ) {
           
@@ -483,35 +527,43 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
         
     }];
     [task.sessionTask resume];
+    
+    return task.promise;
 }
 
 - (CAPIRequestBlock)request
 {
-    return ^( id config, ... ) {
+    return ^CPPromise*( id config, ... ) NS_REQUIRES_NIL_TERMINATION {
+        CPPromise* promise = nil;
         va_list args;
         va_start(args, config);
-        [self _runRequestWithConfig:config overloadConfigs:nil args:args];
+        promise = [self _runRequestWithConfig:config overloadConfigs:nil args:args];
         va_end(args);
+        return promise;
     };
 }
 
 - (CAPIRequestBlock)GET
 {
-    return ^( id config, ... ) {
+    return ^CPPromise*( id config, ... ) NS_REQUIRES_NIL_TERMINATION {
+        CPPromise* promise = nil;
         va_list args;
         va_start(args, config);
-        [self _runRequestWithConfig:config overloadConfigs:@{ @"method" : @"GET" } args:args];
+        promise = [self _runRequestWithConfig:config overloadConfigs:@{ CAPIMethod : @"GET" } args:args];
         va_end(args);
+        return promise;
     };
 }
 
 - (CAPIRequestBlock)POST
 {
-    return ^( id config, ... ) {
+    return ^CPPromise*( id config, ... ) NS_REQUIRES_NIL_TERMINATION {
+        CPPromise* promise = nil;
         va_list args;
         va_start(args, config);
-        [self _runRequestWithConfig:config overloadConfigs:@{ @"method" : @"POST" } args:args];
+        promise = [self _runRequestWithConfig:config overloadConfigs:@{ CAPIMethod : @"POST" } args:args];
         va_end(args);
+        return promise;
     };
 }
 

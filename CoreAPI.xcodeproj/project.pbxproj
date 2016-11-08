@@ -22,6 +22,41 @@
 			remoteGlobalIDString = FA5242D51DD00A8B004D01D6;
 			remoteInfo = CoreAPI;
 		};
+		FA52431B1DD11C8F004D01D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA5243141DD11C8F004D01D6 /* CorePromise.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FA7A4C041C7BC6A3007A9ED4;
+			remoteInfo = "CorePromise iOS";
+		};
+		FA52431D1DD11C8F004D01D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA5243141DD11C8F004D01D6 /* CorePromise.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FA694B071CBC013A00217206;
+			remoteInfo = "CorePromise Mac";
+		};
+		FA52431F1DD11C8F004D01D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA5243141DD11C8F004D01D6 /* CorePromise.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FA7A4C0E1C7BC6A3007A9ED4;
+			remoteInfo = CorePromiseTests;
+		};
+		FA5243211DD11C8F004D01D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA5243141DD11C8F004D01D6 /* CorePromise.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FA777A5E1D118AA50073D904;
+			remoteInfo = promise_tests;
+		};
+		FA5243231DD11C95004D01D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA5243141DD11C8F004D01D6 /* CorePromise.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = FA7A4C031C7BC6A3007A9ED4;
+			remoteInfo = "CorePromise iOS";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +68,7 @@
 		FA5242E91DD0176C004D01D6 /* CoreAPITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreAPITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA5242EB1DD0176C004D01D6 /* CoreAPITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreAPITests.m; sourceTree = "<group>"; };
 		FA5242ED1DD0176C004D01D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA5243141DD11C8F004D01D6 /* CorePromise.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CorePromise.xcodeproj; path = ../CorePromise/CorePromise.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +93,7 @@
 		FA5242CC1DD00A8B004D01D6 = {
 			isa = PBXGroup;
 			children = (
+				FA5243131DD11C82004D01D6 /* Dependencies */,
 				FA5242D81DD00A8B004D01D6 /* CoreAPI */,
 				FA5242EA1DD0176C004D01D6 /* CoreAPITests */,
 				FA5242D71DD00A8B004D01D6 /* Products */,
@@ -92,6 +129,25 @@
 			path = CoreAPITests;
 			sourceTree = "<group>";
 		};
+		FA5243131DD11C82004D01D6 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				FA5243141DD11C8F004D01D6 /* CorePromise.xcodeproj */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
+		FA5243151DD11C8F004D01D6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FA52431C1DD11C8F004D01D6 /* CorePromise.framework */,
+				FA52431E1DD11C8F004D01D6 /* CorePromise.framework */,
+				FA5243201DD11C8F004D01D6 /* CorePromiseTests.xctest */,
+				FA5243221DD11C8F004D01D6 /* promise_tests */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -119,6 +175,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				FA5243241DD11C95004D01D6 /* PBXTargetDependency */,
 			);
 			name = CoreAPI;
 			productName = CoreAPI;
@@ -174,6 +231,12 @@
 			mainGroup = FA5242CC1DD00A8B004D01D6;
 			productRefGroup = FA5242D71DD00A8B004D01D6 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = FA5243151DD11C8F004D01D6 /* Products */;
+					ProjectRef = FA5243141DD11C8F004D01D6 /* CorePromise.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				FA5242D51DD00A8B004D01D6 /* CoreAPI */,
@@ -181,6 +244,37 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		FA52431C1DD11C8F004D01D6 /* CorePromise.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CorePromise.framework;
+			remoteRef = FA52431B1DD11C8F004D01D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FA52431E1DD11C8F004D01D6 /* CorePromise.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CorePromise.framework;
+			remoteRef = FA52431D1DD11C8F004D01D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FA5243201DD11C8F004D01D6 /* CorePromiseTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = CorePromiseTests.xctest;
+			remoteRef = FA52431F1DD11C8F004D01D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FA5243221DD11C8F004D01D6 /* promise_tests */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = promise_tests;
+			remoteRef = FA5243211DD11C8F004D01D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		FA5242D41DD00A8B004D01D6 /* Resources */ = {
@@ -223,6 +317,11 @@
 			isa = PBXTargetDependency;
 			target = FA5242D51DD00A8B004D01D6 /* CoreAPI */;
 			targetProxy = FA5242EF1DD0176C004D01D6 /* PBXContainerItemProxy */;
+		};
+		FA5243241DD11C95004D01D6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "CorePromise iOS";
+			targetProxy = FA5243231DD11C95004D01D6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -326,6 +425,7 @@
 		FA5242DF1DD00A8B004D01D6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 2K7GT73B4R;
@@ -344,6 +444,7 @@
 		FA5242E01DD00A8B004D01D6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 2K7GT73B4R;
@@ -400,6 +501,7 @@
 				FA5242E01DD00A8B004D01D6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FA5242F11DD0176C004D01D6 /* Build configuration list for PBXNativeTarget "CoreAPITests" */ = {
 			isa = XCConfigurationList;
@@ -408,6 +510,7 @@
 				FA5242F31DD0176C004D01D6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
