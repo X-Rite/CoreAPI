@@ -71,6 +71,8 @@ typedef void(^CAPIRequestEmptyCompletion)( id obj, ... );
 
 @interface CAPITask : NSObject
 
+@property (nonatomic,copy,readonly) NSString* identifier;
+
 @property (nonatomic,copy) NSDictionary* config;
 @property (nonatomic,copy) NSURLRequest* request;
 
@@ -94,6 +96,11 @@ typedef void(^CAPIRequestEmptyCompletion)( id obj, ... );
     self = [super init];
     self.validationBlocks = [NSMutableArray array];
     return self;
+}
+
+- (NSString *)identifier
+{
+    return self.request.URL.absoluteString;
 }
 
 @end
@@ -357,8 +364,41 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
     return req;
 }
 
++ (NSCache*)_taskCache
+{
+    static NSCache* cache = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        cache = [[NSCache alloc] init];
+        cache.name = @"com.bedroomcode.capi.task.cache";
+    });
+    return cache;
+}
+
++ (void)_cacheTask:(CAPITask*)task
+{
+    if ( [task.request.HTTPMethod compare:@"get" options:NSCaseInsensitiveSearch] != NSOrderedSame )
+        return;
+    [[self _taskCache] setObject:task forKey:task.identifier];
+}
+
++ (void)_uncacheTask:(CAPITask*)task
+{
+    if ( [task.request.HTTPMethod compare:@"get" options:NSCaseInsensitiveSearch] != NSOrderedSame )
+        return;
+    [[self _taskCache] removeObjectForKey:task.identifier];
+}
+
++ (CAPITask*)_existingTaskForRequest:(NSURLRequest*)request
+{
+    return [[self _taskCache] objectForKey:request.URL.absoluteString];
+}
+
 - (void)_destroyTask:(CAPITask*)task
 {
+    [self.class _uncacheTask:task];
+    
+    task.request = nil;
     task.queue = nil;
     task.response = nil;
     task.sessionTask = nil;
@@ -388,7 +428,6 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
             task.promiseResolver( task.response.error ? task.response.error : task.response );
 
         [self _destroyTask:task];
-        
     };
     
     inTask.response = response;
@@ -416,9 +455,6 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
 
     CAPITask* task = [CAPITask new];
     task.config = fullConfig;
-    task.promise = [CPPromise promiseWithResolverBlock:^(CPPromiseResolver  _Nonnull resolver) {
-        task.promiseResolver = resolver;
-    }];
     
     // loop args
     while (1)
@@ -463,8 +499,29 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
     // overload config
     if ( overloadConfigs )
         [fullConfig addEntriesFromDictionary:overloadConfigs];
-
+    
+    // make the request
     task.request = [self _requestFromConfig:fullConfig];
+    
+    // check for an existing request
+    CAPITask* cachedTask = [self.class _existingTaskForRequest:task.request];
+    if ( cachedTask )
+    {
+        // kill the old task
+        [self _destroyTask:task];
+        task = nil;
+        
+        // return the cache task promise to the user
+        return cachedTask.promise;
+    }
+    
+    // create a new task promise
+    task.promise = [CPPromise promiseWithResolverBlock:^(CPPromiseResolver  _Nonnull resolver) {
+        task.promiseResolver = resolver;
+    }];
+    
+    // cache this task
+    [self.class _cacheTask:task];
     
     // validation
     if ( [self.config[CAPIUseDefaultValidation] boolValue] || [fullConfig[CAPIUseDefaultValidation] boolValue] )

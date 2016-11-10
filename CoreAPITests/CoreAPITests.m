@@ -35,7 +35,7 @@
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@""];
     
-    self.capi.GET( @"/posts", @{ CAPIUseContentTypeSerializer : @YES } )
+    self.capi.GET( @"/posts", nil )
     .then( ^id( CAPIResponse* response ) {
        
         [expectation fulfill];
@@ -50,6 +50,37 @@
     });
 
     [self waitForExpectationsWithTimeout:5 handler:^(NSError * _Nullable error) {
+    }];
+}
+
+- (void)testCachedTask
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@""];
+    
+    __block NSUInteger count = 0;
+    
+    self.capi.GET( @"/posts", nil )
+    .then( ^id( CAPIResponse* response ) {
+        count++;
+        return nil;
+    })
+    .error( ^id(NSError* error) {
+        return nil;
+    });
+    
+    self.capi.GET( @"/posts", nil )
+    .then( ^id( CAPIResponse* response ) {
+        count++;
+        XCTAssertEqual(count, 2);
+        [expectation fulfill];
+        return nil;
+    })
+    .error( ^id(NSError* error) {
+        [expectation fulfill];
+        return nil;
+    });
+    
+    [self waitForExpectationsWithTimeout:10 handler:^(NSError * _Nullable error) {
     }];
 }
 
