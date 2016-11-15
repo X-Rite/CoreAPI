@@ -12,6 +12,9 @@
 		FA5242E41DD00AED004D01D6 /* CAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5242E21DD00AED004D01D6 /* CAPI.m */; };
 		FA5242EC1DD0176C004D01D6 /* CoreAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5242EB1DD0176C004D01D6 /* CoreAPITests.m */; };
 		FA5242EE1DD0176C004D01D6 /* CoreAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA5242D61DD00A8B004D01D6 /* CoreAPI.framework */; };
+		FAEE57211DD8F94300E9DC86 /* CAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5242E21DD00AED004D01D6 /* CAPI.m */; };
+		FAEE57221DD8F94700E9DC86 /* CAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = FA5242E11DD00AED004D01D6 /* CAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAEE57231DD8F94C00E9DC86 /* CoreAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = FA5242D91DD00A8B004D01D6 /* CoreAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +60,13 @@
 			remoteGlobalIDString = FA7A4C031C7BC6A3007A9ED4;
 			remoteInfo = "CorePromise iOS";
 		};
+		FAEE57241DD8F99600E9DC86 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA5243141DD11C8F004D01D6 /* CorePromise.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = FA694B061CBC013A00217206;
+			remoteInfo = "CorePromise Mac";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +79,7 @@
 		FA5242EB1DD0176C004D01D6 /* CoreAPITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreAPITests.m; sourceTree = "<group>"; };
 		FA5242ED1DD0176C004D01D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA5243141DD11C8F004D01D6 /* CorePromise.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CorePromise.xcodeproj; path = ../CorePromise/CorePromise.xcodeproj; sourceTree = "<group>"; };
+		FAEE57161DD8F8DA00E9DC86 /* CoreAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +95,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA5242EE1DD0176C004D01D6 /* CoreAPI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAEE57121DD8F8DA00E9DC86 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,6 +123,7 @@
 			children = (
 				FA5242D61DD00A8B004D01D6 /* CoreAPI.framework */,
 				FA5242E91DD0176C004D01D6 /* CoreAPITests.xctest */,
+				FAEE57161DD8F8DA00E9DC86 /* CoreAPI.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -160,6 +179,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FAEE57131DD8F8DA00E9DC86 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAEE57231DD8F94C00E9DC86 /* CoreAPI.h in Headers */,
+				FAEE57221DD8F94700E9DC86 /* CAPI.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -200,6 +228,25 @@
 			productReference = FA5242E91DD0176C004D01D6 /* CoreAPITests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		FAEE57151DD8F8DA00E9DC86 /* CoreAPI-Mac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FAEE57201DD8F8DA00E9DC86 /* Build configuration list for PBXNativeTarget "CoreAPI-Mac" */;
+			buildPhases = (
+				FAEE57111DD8F8DA00E9DC86 /* Sources */,
+				FAEE57121DD8F8DA00E9DC86 /* Frameworks */,
+				FAEE57131DD8F8DA00E9DC86 /* Headers */,
+				FAEE57141DD8F8DA00E9DC86 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FAEE57251DD8F99600E9DC86 /* PBXTargetDependency */,
+			);
+			name = "CoreAPI-Mac";
+			productName = "CoreAPI-Mac";
+			productReference = FAEE57161DD8F8DA00E9DC86 /* CoreAPI.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -215,6 +262,11 @@
 						ProvisioningStyle = Automatic;
 					};
 					FA5242E81DD0176C004D01D6 = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = 2K7GT73B4R;
+						ProvisioningStyle = Automatic;
+					};
+					FAEE57151DD8F8DA00E9DC86 = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = 2K7GT73B4R;
 						ProvisioningStyle = Automatic;
@@ -240,6 +292,7 @@
 			projectRoot = "";
 			targets = (
 				FA5242D51DD00A8B004D01D6 /* CoreAPI */,
+				FAEE57151DD8F8DA00E9DC86 /* CoreAPI-Mac */,
 				FA5242E81DD0176C004D01D6 /* CoreAPITests */,
 			);
 		};
@@ -291,6 +344,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FAEE57141DD8F8DA00E9DC86 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -310,6 +370,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FAEE57111DD8F8DA00E9DC86 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAEE57211DD8F94300E9DC86 /* CAPI.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -322,6 +390,11 @@
 			isa = PBXTargetDependency;
 			name = "CorePromise iOS";
 			targetProxy = FA5243231DD11C95004D01D6 /* PBXContainerItemProxy */;
+		};
+		FAEE57251DD8F99600E9DC86 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "CorePromise Mac";
+			targetProxy = FAEE57241DD8F99600E9DC86 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -484,6 +557,52 @@
 			};
 			name = Release;
 		};
+		FAEE571B1DD8F8DA00E9DC86 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 2K7GT73B4R;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = CoreAPI/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xrite.CoreAPI;
+				PRODUCT_NAME = CoreAPI;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		FAEE571C1DD8F8DA00E9DC86 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 2K7GT73B4R;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = CoreAPI/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xrite.CoreAPI;
+				PRODUCT_NAME = CoreAPI;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -510,6 +629,15 @@
 			buildConfigurations = (
 				FA5242F21DD0176C004D01D6 /* Debug */,
 				FA5242F31DD0176C004D01D6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FAEE57201DD8F8DA00E9DC86 /* Build configuration list for PBXNativeTarget "CoreAPI-Mac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FAEE571B1DD8F8DA00E9DC86 /* Debug */,
+				FAEE571C1DD8F8DA00E9DC86 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

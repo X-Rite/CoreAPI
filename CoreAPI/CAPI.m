@@ -8,7 +8,11 @@
 
 #import "CAPI.h"
 
+#if TARGET_OS_IOS
 #import <UIKit/UIKit.h>
+#else
+#import <Cocoa/Cocoa.h>
+#endif
 
 NSString* const CAPIUseContentTypeSerializer = @"useContentTypeSerializer";
 NSString* const CAPIUseDefaultValidation = @"useDefaultValidation";
@@ -551,7 +555,11 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
             }
             else if ( [part1 isEqualToString:@"image"] )
             {
+#if TARGET_OS_IOS
                 return data ? [UIImage imageWithData:data] : nil;
+#else
+                return data ? [[NSImage alloc] initWithData:data] : nil;
+#endif
             }
             else if ( [part1 isEqualToString:@"application"] )
             {

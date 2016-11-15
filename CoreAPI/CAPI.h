@@ -11,50 +11,56 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString* const CAPIErrorDomain;
+#ifdef __cplusplus
+#define CAPI_EXTERN    extern "C" __attribute__((visibility ("default")))
+#else
+#define CAPI_EXTERN    extern __attribute__((visibility ("default")))
+#endif
+
+CAPI_EXTERN NSString* const CAPIErrorDomain;
 
 /**
  * CAPI with:config or request: config
  */
-extern NSString* const CAPIUseContentTypeSerializer;
-extern NSString* const CAPIUseDefaultValidation;
-extern NSString* const CAPINetworkServiceType;
-extern NSString* const CAPICachePolicy;
-extern NSString* const CAPIAllowsCellularAccess;
-extern NSString* const CAPIHTTPShouldUsePipelining;
+CAPI_EXTERN NSString* const CAPIUseContentTypeSerializer;
+CAPI_EXTERN NSString* const CAPIUseDefaultValidation;
+CAPI_EXTERN NSString* const CAPINetworkServiceType;
+CAPI_EXTERN NSString* const CAPICachePolicy;
+CAPI_EXTERN NSString* const CAPIAllowsCellularAccess;
+CAPI_EXTERN NSString* const CAPIHTTPShouldUsePipelining;
 
 /**
  * CAPI with: config
  * mostly directly related to NSURLSessionConfiguration
  */
-extern NSString* const CAPIBaseURL;
-extern NSString* const CAPITimeoutIntervalForRequest;
-extern NSString* const CAPITimeoutIntervalForResource;
-extern NSString* const CAPIDiscretionary;
-extern NSString* const CAPISharedContainerIdentifier;
-extern NSString* const CAPISessionSendsLaunchEvents;
-extern NSString* const CAPIConnectionProxyDictionary;
-extern NSString* const CAPITLSMinimumSupportedProtocol;
-extern NSString* const CAPITLSMaximumSupportedProtocol;
-extern NSString* const CAPIHTTPShouldSetCookies;
-extern NSString* const CAPIHTTPCookieAcceptPolicy;
-extern NSString* const CAPIHTTPAdditionalHeaders;
-extern NSString* const CAPIHTTPMaximumConnectionsPerHost;
-extern NSString* const CAPIHTTPCookieStorage;
-extern NSString* const CAPIURLCredentialStorage;
-extern NSString* const CAPIURLCache;
-extern NSString* const CAPIShouldUseExtendedBackgroundIdleMode;
-extern NSString* const CAPIProtocolClasses;
+CAPI_EXTERN NSString* const CAPIBaseURL;
+CAPI_EXTERN NSString* const CAPITimeoutIntervalForRequest;
+CAPI_EXTERN NSString* const CAPITimeoutIntervalForResource;
+CAPI_EXTERN NSString* const CAPIDiscretionary;
+CAPI_EXTERN NSString* const CAPISharedContainerIdentifier;
+CAPI_EXTERN NSString* const CAPISessionSendsLaunchEvents;
+CAPI_EXTERN NSString* const CAPIConnectionProxyDictionary;
+CAPI_EXTERN NSString* const CAPITLSMinimumSupportedProtocol;
+CAPI_EXTERN NSString* const CAPITLSMaximumSupportedProtocol;
+CAPI_EXTERN NSString* const CAPIHTTPShouldSetCookies;
+CAPI_EXTERN NSString* const CAPIHTTPCookieAcceptPolicy;
+CAPI_EXTERN NSString* const CAPIHTTPAdditionalHeaders;
+CAPI_EXTERN NSString* const CAPIHTTPMaximumConnectionsPerHost;
+CAPI_EXTERN NSString* const CAPIHTTPCookieStorage;
+CAPI_EXTERN NSString* const CAPIURLCredentialStorage;
+CAPI_EXTERN NSString* const CAPIURLCache;
+CAPI_EXTERN NSString* const CAPIShouldUseExtendedBackgroundIdleMode;
+CAPI_EXTERN NSString* const CAPIProtocolClasses;
 
 /**
  * CAPI Request config
  */
-extern NSString* const CAPIURL;
-extern NSString* const CAPIParams;
-extern NSString* const CAPIMethod;
-extern NSString* const CAPIData;
-extern NSString* const CAPIHTTPShouldHandleCookies;
-extern NSString* const CAPIHeaders;
+CAPI_EXTERN NSString* const CAPIURL;
+CAPI_EXTERN NSString* const CAPIParams;
+CAPI_EXTERN NSString* const CAPIMethod;
+CAPI_EXTERN NSString* const CAPIData;
+CAPI_EXTERN NSString* const CAPIHTTPShouldHandleCookies;
+CAPI_EXTERN NSString* const CAPIHeaders;
 
 /**
  * CAPI Response object
