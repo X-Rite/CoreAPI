@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.version = '1.0.0'
   
   s.homepage = "https://github.com/naftaly/CoreAPI"
-  s.source = { :git => "https://github.com/naftaly/CoreAPI.git", :tag => "master" }
+  s.source = { :git => "https://github.com/naftaly/CoreAPI.git", :tag => s.version }
   s.license = { :type => 'MIT', :file => 'LICENSE' }
   s.summary = 'Simple Networking framework.'
 
