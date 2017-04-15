@@ -20,6 +20,6 @@ Use it as follows:
 
 ## License
 
-CoreDispatch is released under a MIT License. See LICENSE file for details.
+CoreAPI is released under a MIT License. See LICENSE file for details.
 
 
