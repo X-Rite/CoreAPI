@@ -18,5 +18,5 @@ Pod::Spec.new do |s|
   s.source_files = [ 'CoreAPI/*.h', 'CoreAPI/*.m' ]
   s.public_header_files = [ 'CoreAPI/*.h' ]
   
-  s.dependency = 'CorePromise'
+  s.dependency 'CorePromise'
 end
