@@ -101,6 +101,8 @@ NS_CLASS_AVAILABLE(10_11,9_0) @interface CAPI : NSObject
 
 + (instancetype)with:(NSDictionary*)config;
 
+- (void)updateWithConfiguration:(NSDictionary*)config;
+
 @property (nonatomic,copy,readonly) CAPIRequestBlock request;
 @property (nonatomic,copy,readonly) CAPIRequestBlock GET;
 @property (nonatomic,copy,readonly) CAPIRequestBlock POST;

@@ -18,6 +18,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		FA4DF2101FFD4A1400A47CED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA5243141DD11C8F004D01D6 /* CorePromise.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FA1886091F9A701A009D0E1B;
+			remoteInfo = CorePromiseTestTool;
+		};
+		FA4DF2121FFD4A1400A47CED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA5243141DD11C8F004D01D6 /* CorePromise.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FA18861B1F9A7636009D0E1B;
+			remoteInfo = CorePromiseGUITest;
+		};
 		FA5242EF1DD0176C004D01D6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FA5242CD1DD00A8B004D01D6 /* Project object */;
@@ -163,6 +177,8 @@
 				FA6ACF2E1F2649DA00351BD4 /* CorePromise.framework */,
 				FA52431E1DD11C8F004D01D6 /* CorePromise.framework */,
 				FA5243201DD11C8F004D01D6 /* CorePromiseTests.xctest */,
+				FA4DF2111FFD4A1400A47CED /* CorePromiseTestTool */,
+				FA4DF2131FFD4A1400A47CED /* CorePromiseGUITest.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -297,6 +313,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		FA4DF2111FFD4A1400A47CED /* CorePromiseTestTool */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = CorePromiseTestTool;
+			remoteRef = FA4DF2101FFD4A1400A47CED /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FA4DF2131FFD4A1400A47CED /* CorePromiseGUITest.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = CorePromiseGUITest.app;
+			remoteRef = FA4DF2121FFD4A1400A47CED /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		FA52431C1DD11C8F004D01D6 /* CorePromise.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -423,6 +453,7 @@
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -481,6 +512,7 @@
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";

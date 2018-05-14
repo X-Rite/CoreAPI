@@ -235,6 +235,13 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
     return self;
 }
 
+- (void)updateWithConfiguration:(NSDictionary*)config
+{
+    if ( [config isEqualToDictionary:self.config] )
+        return;
+    self.config = [config copy];
+}
+
 - (NSURLSessionConfiguration*)_sessionConfigurationFromConfig:(NSDictionary*)config
 {
     NSURLSessionConfiguration* sessionConfig = [[NSURLSessionConfiguration defaultSessionConfiguration] copy];
@@ -363,6 +370,9 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
     if ( config[CAPIMethod] )
         req.HTTPMethod = config[CAPIMethod];
     
+    if ( config[CAPITimeoutIntervalForRequest] )
+        req.timeoutInterval = [config[CAPITimeoutIntervalForRequest] doubleValue];
+    
     id data = config[CAPIData];
     if ( [data isKindOfClass:[NSData class]] )
         req.HTTPBody = data;
@@ -380,7 +390,9 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
     [(NSDictionary*)config[CAPIHeaders] enumerateKeysAndObjectsUsingBlock:^(NSString*  _Nonnull key, NSString*  _Nonnull obj, BOOL * _Nonnull stop) {
         [req addValue:obj forHTTPHeaderField:key];
     }];
-
+    
+    
+    
     return req;
 }
 
@@ -432,6 +444,8 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
 {
     void (^finish)( CAPITask* task ) = ^( CAPITask* task ) {
         
+        //NSLog( @"[CAPI] <resolver:%p> _finishTask: %@", task.promiseResolver, task.request.URL );
+        
         NSArray<CAPIResponseValidate>* validations = [task.validationBlocks copy];
         [validations enumerateObjectsUsingBlock:^(CAPIResponseValidate  _Nonnull handler, NSUInteger idx, BOOL * _Nonnull stop) {
             if ( !handler(task.response.httpResponse) )
@@ -445,8 +459,14 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
             task.response.body = task.serializeBlock( task.response.httpResponse, task.response.data );
         
         if ( task.promiseResolver )
+        {
             task.promiseResolver( task.response.error ? task.response.error : task.response );
-
+        }
+        else
+        {
+            
+        }
+        
         [self _destroyTask:task];
     };
     
@@ -596,7 +616,14 @@ static NSMethodSignature* CAPIMethodSignatureFromBlock(id _Nullable block) {
         };
     }
 
+    NSTimeInterval start_time = CFAbsoluteTimeGetCurrent();
+    
     task.sessionTask = [self.session dataTaskWithRequest:task.request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        NSTimeInterval end_time = CFAbsoluteTimeGetCurrent();
+        NSTimeInterval duration = end_time - start_time;
+        
+        NSLog( @"[REQ:CAPI] %@%@ task took %f seconds", task.request.URL.host, task.request.URL.path, duration );
         
         CAPIResponse* rsp = [CAPIResponse new];
         rsp.request = task.request;
