@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		779FC6AE23F43B54001FBF7E /* CorePromise.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA52431C1DD11C8F004D01D6 /* CorePromise.framework */; };
 		FA5242DB1DD00A8B004D01D6 /* CoreAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = FA5242D91DD00A8B004D01D6 /* CoreAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA5242E31DD00AED004D01D6 /* CAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = FA5242E11DD00AED004D01D6 /* CAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA5242E41DD00AED004D01D6 /* CAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5242E21DD00AED004D01D6 /* CAPI.m */; };
@@ -101,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				779FC6AE23F43B54001FBF7E /* CorePromise.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,6 +124,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		779FC6A923F43B54001FBF7E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		FA5242CC1DD00A8B004D01D6 = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +138,7 @@
 				FA5242D81DD00A8B004D01D6 /* CoreAPI */,
 				FA5242EA1DD0176C004D01D6 /* CoreAPITests */,
 				FA5242D71DD00A8B004D01D6 /* Products */,
+				779FC6A923F43B54001FBF7E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
